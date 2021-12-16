@@ -1,4 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_gallery/Photos/ShowPhotos.dart';
+import 'package:my_gallery/Photos/UploadedPhotos.dart';
+
+import 'loginScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,10 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(' Welcome'),
-        centerTitle: true,
-      ),
+      appBar: _appBar(),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(30),
@@ -23,21 +25,59 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                height: 180,
+                height: 150,
                 child: Image.asset(
-                  "assets/logo1.png",
+                  "assets/logo2.png",
                   fit: BoxFit.contain,
                 ),
               ),
-              Text(" Welcome"),
-              SizedBox(
-                height: 15,
+              Text(
+                " Welcome",
+                style: TextStyle(fontSize: 30.0),
               ),
-              ActionChip(label: Text("Logout"), onPressed: () {}),
+              SizedBox(
+                height: 50,
+              ),
+              Center(
+                child: ElevatedButton.icon(
+                  icon: Icon(
+                    Icons.add_a_photo_rounded,
+                  ),
+                  label: Text(" Upload Photo"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UploadedPhotos()));
+                  },
+                ),
+              ),
+              Center(
+                child: ElevatedButton.icon(
+                  icon: Icon(
+                    Icons.photo_album_rounded,
+                  ),
+                  label: Text(" Show Photo"),
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ShowPhotos()));
+                  },
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  _appBar() {
+    final appBarHeight = AppBar().preferredSize.height;
+    return PreferredSize(
+        child: AppBar(
+          title: const Text(" Profile "),
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
+        ),
+        preferredSize: Size.fromHeight(appBarHeight));
   }
 }
