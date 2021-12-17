@@ -27,10 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 150,
                 child: Image.asset(
-                  "assets/logo2.png",
+                  "assets/icon.png",
                   fit: BoxFit.contain,
                 ),
               ),
+              Padding(padding: EdgeInsets.all(10)),
               Text(
                 " Welcome",
                 style: TextStyle(fontSize: 30.0),
@@ -79,5 +80,11 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
         ),
         preferredSize: Size.fromHeight(appBarHeight));
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 }

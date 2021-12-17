@@ -12,12 +12,12 @@ class _ShowPhotosState extends State<ShowPhotos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Uploaded Phptos ")),
+      appBar: AppBar(title: const Text("Uploaded Photos ")),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("users")
             .doc(widget.userId)
-            .collection("images")
+            .collection("photos")
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {

@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +18,7 @@ class UploadedPhotos extends StatefulWidget {
 class _UploadedPhotosState extends State<UploadedPhotos> {
   File? image;
   final imagePicker = ImagePicker();
+  String? downloadURL;
 
   Future imagePickerMethod() async {
     final pick = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -37,16 +39,19 @@ class _UploadedPhotosState extends State<UploadedPhotos> {
   Future uploadImage(File _image) async {
     final imgId = DateTime.now().millisecondsSinceEpoch.toString();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    Reference reference = FirebaseStorage.instance
-        .ref()
-        .child('${widget.userId}/images')
-        .child("post_$imgId");
+    Reference reference =
+        FirebaseStorage.instance.ref().child('/Photos').child("post_$imgId");
+
+    await reference.putFile(_image);
+    downloadURL = await reference.getDownloadURL();
 
     // cloud firestore
     await firebaseFirestore
         .collection("users")
         .doc(widget.userId)
-        .collection("images");
+        .collection("photos")
+        .add({'downloadURL': downloadURL}).whenComplete(
+            () => showSnackBar("Photos Uploaded", Duration(seconds: 2)));
   }
 
   @override
@@ -106,7 +111,7 @@ class _UploadedPhotosState extends State<UploadedPhotos> {
                                       if (image != null) {
                                         uploadImage(image!);
                                       } else {
-                                        showSnackBar("Select Image first",
+                                        showSnackBar("No photos selected ",
                                             Duration(milliseconds: 400));
                                       }
                                     },
