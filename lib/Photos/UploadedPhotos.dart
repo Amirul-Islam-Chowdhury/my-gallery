@@ -59,7 +59,7 @@ class _UploadedPhotosState extends State<UploadedPhotos> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(" Pick a Photo"),
+        title: Text("Photo Picker "),
       ),
       body: Center(
         child: Padding(

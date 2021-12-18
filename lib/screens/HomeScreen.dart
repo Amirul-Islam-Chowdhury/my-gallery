@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(
                     Icons.add_a_photo_rounded,
                   ),
-                  label: Text(" Upload Photo"),
+                  label: Text(" Upload Photos"),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -79,12 +79,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
+              Padding(padding: EdgeInsets.only(bottom: 10.0)),
               Center(
                 child: ElevatedButton.icon(
                   icon: Icon(
                     Icons.photo_album_rounded,
                   ),
-                  label: Text(" Show Photo"),
+                  label: Text(" View Photos"),
                   onPressed: () {
                     Navigator.push(
                         context,

@@ -13,7 +13,7 @@ class _ShowPhotosState extends State<ShowPhotos> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black38,
-      appBar: AppBar(title: const Text("Uploaded Photos ")),
+      appBar: AppBar(title: const Text("Photos ")),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("users")
