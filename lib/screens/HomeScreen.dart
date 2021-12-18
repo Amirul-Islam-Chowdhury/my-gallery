@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gallery/Photos/ShowPhotos.dart';
 import 'package:my_gallery/Photos/UploadedPhotos.dart';
+import 'package:my_gallery/users/UsersState.dart';
 
 import 'loginScreen.dart';
 
@@ -13,9 +15,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UserState loggedInUser = UserState();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserState.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black38,
       appBar: _appBar(),
       body: Center(
         child: Padding(
@@ -34,8 +53,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(padding: EdgeInsets.all(10)),
               Text(
                 " Welcome",
-                style: TextStyle(fontSize: 30.0),
+                style: TextStyle(fontSize: 30.0, color: Colors.white),
               ),
+              Text("  ${loggedInUser.firstName} ${loggedInUser.secondName} ",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  )),
               SizedBox(
                 height: 50,
               ),
@@ -49,7 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => UploadedPhotos()));
+                            builder: (context) => UploadedPhotos(
+                                  userId: loggedInUser.uid,
+                                )));
                   },
                 ),
               ),
@@ -60,8 +86,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   label: Text(" Show Photo"),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ShowPhotos()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShowPhotos(
+                                  userId: loggedInUser.uid,
+                                )));
                   },
                 ),
               ),
@@ -77,7 +107,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return PreferredSize(
         child: AppBar(
           title: const Text(" Profile "),
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  logout(context);
+                },
+                icon: Icon(Icons.logout))
+          ],
         ),
         preferredSize: Size.fromHeight(appBarHeight));
   }

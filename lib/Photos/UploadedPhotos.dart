@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UploadedPhotos extends StatefulWidget {
-  const UploadedPhotos({Key? key, this.userId}) : super(key: key);
-
   final String? userId;
+  UploadedPhotos({Key? key, this.userId}) : super(key: key);
 
   @override
   _UploadedPhotosState createState() => _UploadedPhotosState();
@@ -39,8 +37,10 @@ class _UploadedPhotosState extends State<UploadedPhotos> {
   Future uploadImage(File _image) async {
     final imgId = DateTime.now().millisecondsSinceEpoch.toString();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    Reference reference =
-        FirebaseStorage.instance.ref().child('/Photos').child("post_$imgId");
+    Reference reference = FirebaseStorage.instance
+        .ref()
+        .child('${widget.userId}/photos')
+        .child("post_$imgId");
 
     await reference.putFile(_image);
     downloadURL = await reference.getDownloadURL();
@@ -57,8 +57,9 @@ class _UploadedPhotosState extends State<UploadedPhotos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(" Upload Photos"),
+        title: Text(" Pick a Photo"),
       ),
       body: Center(
         child: Padding(
@@ -84,13 +85,11 @@ class _UploadedPhotosState extends State<UploadedPhotos> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // the image that we wanted to upload
                                 Expanded(
                                     child: image == null
                                         ? const Center(
                                             child: Text("No image selected"))
                                         : Image.file(image!)),
-
                                 Center(
                                   child: ElevatedButton.icon(
                                     icon: Icon(Icons.add_a_photo),
@@ -100,7 +99,6 @@ class _UploadedPhotosState extends State<UploadedPhotos> {
                                     },
                                   ),
                                 ),
-
                                 Center(
                                   child: ElevatedButton.icon(
                                     icon: Icon(

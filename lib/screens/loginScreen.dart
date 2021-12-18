@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.vpn_key),
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: " Passwprd",
+        hintText: " Password",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
@@ -141,7 +141,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: Text(
                                 " Signup",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15.0),
                               ))
                         ],
                       )
