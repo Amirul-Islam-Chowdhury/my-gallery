@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 20.0,
                   )),
               SizedBox(
-                height: 50,
+                height: 15,
               ),
               Center(
                 child: ElevatedButton.icon(
@@ -79,7 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              Padding(padding: EdgeInsets.only(bottom: 10.0)),
+              SizedBox(
+                height: 15,
+              ),
               Center(
                 child: ElevatedButton.icon(
                   icon: Icon(

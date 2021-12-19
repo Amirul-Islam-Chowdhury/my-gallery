@@ -88,7 +88,11 @@ class _UploadedPhotosState extends State<UploadedPhotos> {
                                 Expanded(
                                     child: image == null
                                         ? const Center(
-                                            child: Text("No image selected"))
+                                            child: Text(
+                                            "No image selected",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ))
                                         : Image.file(image!)),
                                 Center(
                                   child: ElevatedButton.icon(

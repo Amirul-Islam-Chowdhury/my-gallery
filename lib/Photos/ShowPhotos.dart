@@ -28,24 +28,31 @@ class _ShowPhotosState extends State<ShowPhotos> {
             default:
               if (snapshot.hasError)
                 return Text('Error: ${snapshot.error}');
-              else
-                return Container(
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      String url = snapshot.data!.docs[index]['downloadURL'];
-                      return Image.network(
-                        url,
-                        fit: BoxFit.cover,
-                      );
-                    },
+              else if (!snapshot.hasData) {
+                return Text(
+                  " No photos uploaded ",
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 );
+              }
+              return Container(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    crossAxisCount: 2,
+                  ),
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    String url = snapshot.data!.docs[index]['downloadURL'];
+                    return Image.network(
+                      url,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
+              );
           }
         },
       ),
